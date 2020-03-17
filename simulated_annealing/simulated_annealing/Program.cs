@@ -104,6 +104,10 @@ namespace simulated_annealing
 
         // Notatki:
         /*
+         * Co to za program?
+         * Algorytm symulowanego wyżarzania ma za zadanie odnaleźć wartość maksymalną lub minimalną dla danej funkcji na określonym
+         * przedziale [a,b].
+         * 
          * Na wstępie chciałbym podzielić się obserwacją, że C# nie jest dobrym językiem do programowania metod numerycznych.
          * Ze względu na swoją budowę okazuje się, że czas wykonywania programu negatywnie wpływa na wartości losowe losowane w jego trakcie.
          * Wystarczy usunąć linijkę "Console.WriteLine(best_solution_s8)" z pętli programu by przekonać się, że program zwraca głupoty jeżeli 
@@ -135,7 +139,7 @@ namespace simulated_annealing
          * 
          * 1) InitialTemperature
          * Zgodnie z artykułem naliczyłem się aż 9 różnorodnych podejść do zainicjowania początkowej temperatury. Najprostszym z nich jest
-         * podanie na sztywno wartości początkowej. Symbolicznie stworzyłem metodę, która przypisuje dokonuje tej operacji.
+         * podanie na sztywno wartości początkowej. Symbolicznie stworzyłem metodę, która dokonuje tej operacji.
          * Można by było zrobić to w jednej linijce przypisując od razu do zmiennej T0 wartosć liczbową, jednak ze względu na określony schemat
          * algorytmu chciałem wyodrębnić ten zabieg w osobnej metodzie, która w przyszłości mogłaby być zmodyfikowana. 
          * 
@@ -145,7 +149,7 @@ namespace simulated_annealing
          * 
          * 3) ExplorationCriterion
          * Jest to jeden z kluczowych komponentów działania algorytmu. Najprostszą metodą jest wylosowanie na danym przedziale sąsiedztwa
-         * wartości argumentu i zwrócenia jego wartości. Jednakże mr. Connolly w 1990 roku zauważył nieefektywność takiego podejścia
+         * argumentu i zwrócenia jego wartości. Jednakże mr. Connolly w 1990 roku zauważył nieefektywność takiego podejścia
          * ponieważ dla niższych temperatur potencjalne ulepszenia mogłyby zostać pominięte. Zaproponował więc szukanie potencjalnego
          * rozwiązania za pomocą pewnych ściśle określonych sekwencji. Dopiero 1995 roku Ishibuchi postanowił zmodernizować najprostszą metodę
          * losowania wartości o prosty zabieg - wylosowaniu pewnej liczby k wartości i znalezieniu najlepszej z nich. W moim programie
@@ -155,7 +159,7 @@ namespace simulated_annealing
          * W mojej ocenie jest to drugi z kluczowych komponentów (jeżeli by nie powiedzieć, że najważniejszy) działania algorytmu.
          * Mając do dyspozycji gamę podejść do tego komponentu wybrałem tak zwany "Metropolis-based criteria".
          * Jest to bardzo sprytna metoda. Poroszę zauważyć, że jeżeli dostanę lepszą wartość funkcji (actualSol) od mojej dotychczasowo 
-         * najlepszej (bestSol) to bez chwili wachania mówię "spoko, zwróć pozwolenie (true)" ale jeżeli nie dostanę lepszej wartości (więc gorszą) 
+         * najlepszej (bestSol) to bez chwili wachania mówię "w porządku, zwróć pozwolenie (true)" ale jeżeli nie dostanę lepszej wartości (więc gorszą) 
          * to algorytm mówi "no okej, ale może w innych rejonach znajdę się w pobiżu globalnie najlepszej wartości. 
          * I teraz cały spryt polega na tym, że funkcja Exp(-x) dla wzrostu argumentu daje coraz mniejsze wartości. Mamy tu do czynienia 
          * z prawdopodobieństwem. Zatem z meleniem temperatury argument "x" będzie coraz większy - co za tym idzie pod koniec działania 
@@ -170,10 +174,10 @@ namespace simulated_annealing
          * w artykule chciałbym podkreślić jej istnienie.
          * 
          * 6) CoolingScheme 
-         * Metoda ta ochładza temperaturę. Poniwnie można zrobić to na wiele sposobów. Ja wybrałem przemnożenie aktualnej wartości temperatury
+         * Metoda ta ochładza temperaturę. Ponownie można zrobić to na wiele sposobów. Ja wybrałem przemnożenie aktualnej wartości temperatury
          * przez stałą liczbę 'alfa' należącą do zbioru (0,1). Policzona w ten sposób wartość staje się nową wartością temperatury.
          * Obniżenie temperatury pozwala na coraz mniejsze prawdopodobieństwo skoku w inne regiony funkcji, gdzie może istnieć globalne
-         * minimum lub maksimu w zależności od tego jakiego rodzaju ekstremum poszukujemy.
+         * minimum lub maksimum w zależności od tego jakiego rodzaju ekstremum poszukujemy.
          * 
          * 7) TemperatureRestart
          * Metoda ta również posiada wiele możliwości podejścia. Tak wiele, że ktoś postanowił bezczynność tej metody już nazwać metodą :)
@@ -189,7 +193,12 @@ namespace simulated_annealing
          * funkcja ta posiada tylko jedno minimum lokalne, które jest zarazem globalnym rozwiązaniem dlatego też zdecydowałem się by 
          * metoda TemperatureRestart praktycznie nie istaniała bo nie miałaby takiej potrzeby. 
          * Program mój można jednak przetestować dla funkcji, którą zostawiłem w komentarzu w metodzie "f", która posiada dwa minima lokalne.
-         * Najmniejsza wartość minimum lokalnego dla tej funckji jest równa około -2. Należy podać tylko do zmiennej "range" przedział [-1, 3].
+         * Najmniejsza wartość minimum lokalnego dla tej funckji jest równa około -2. Należy tylko podać do zmiennej "range" przedział [-1, 3].
+         * 
+         * Muszę podkreślić jedną rzecz odnośnie mojego programu. Wiele metod istnieje tylko ze względu na konwenans algorytmu. To znaczy, że
+         * mogłyby ich nie być. Metody te są często nieskalowalne w przypadku chęci modernizacji programu przez nadanie mu innych sposobów 
+         * rozwiązywania poszczególnych komponentów. Należałoby od podstaw zmienić metody, które miałyby ulec modernizacji na nowo definiując 
+         * im np. liczbę zmiennych, na których będą bazować.
          * 
          * Wskazówka:
          * Jeżeli chciałbym znaleźć maksimum globalne dla podanej funkcji wykorzystując ten program, należy zmienić znak z "<" na ">"

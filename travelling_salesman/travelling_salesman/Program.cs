@@ -29,21 +29,6 @@ namespace travelling_salesman
             }
         }
 
-        public class Letter
-        {
-            public string name;
-            public bool reserved;
-            public Letter(string _n, bool _r)
-            {
-                name = _n;
-                reserved = _r;
-            }
-            public override string ToString()
-            {
-                return name + " - " + reserved;
-            }
-        }
-
         private static List<string> Permute(string str, int l, int r, List<string> list)
         {
             if (l == r)

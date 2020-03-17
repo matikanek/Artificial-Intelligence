@@ -1,0 +1,7 @@
+C:\Users\Mateusz\Desktop\simulated_annealing\simulated_annealing\bin\Debug\simulated_annealing.exe.config
+C:\Users\Mateusz\Desktop\simulated_annealing\simulated_annealing\bin\Debug\simulated_annealing.exe
+C:\Users\Mateusz\Desktop\simulated_annealing\simulated_annealing\bin\Debug\simulated_annealing.pdb
+C:\Users\Mateusz\Desktop\simulated_annealing\simulated_annealing\obj\Debug\simulated_annealing.csprojAssemblyReference.cache
+C:\Users\Mateusz\Desktop\simulated_annealing\simulated_annealing\obj\Debug\simulated_annealing.csproj.CoreCompileInputs.cache
+C:\Users\Mateusz\Desktop\simulated_annealing\simulated_annealing\obj\Debug\simulated_annealing.exe
+C:\Users\Mateusz\Desktop\simulated_annealing\simulated_annealing\obj\Debug\simulated_annealing.pdb

@@ -224,8 +224,8 @@ namespace travelling_salesman
 
 
             // ******************************* Simulated Annealing Components ******************************* \\
-            int[] range = { 0, 10 };
-            double s0 = f(1, ListOfTracks);   // Uwaga, wartość ta jest dobra tylko dla określonych warunków funkcji f
+            int[] range = { 0, ListOfTracks.Count };
+            double s0 = f(1, ListOfTracks);
             double best_solution_s8;
             double solution_s;
             double incumbent_solution_s6;
@@ -345,9 +345,7 @@ namespace travelling_salesman
              * Po rospisaniu na kartce papieru podanych przeze mnie punktów, można przekonać się że generowana przez program najkrótsza 
              * ścieżka pomiędzy danymi punktami rzeczywiście wygląda na optymalną. Można zmodyfikować program zalecając się do poniższego
              * podpunktu "Wskazówka" by znaleźć najdłuższą ścieżkę i również można zobaczyć na kartce papieru obliczony rezultat. 
-             * W przypadku chęci zmiany danych należy zmodyfikować zmienne statyczne na samej górze programu: X, Y, N uważając na wpisywane 
-             * dane modyfikując względem nich zmienną range z głównej funkcji main programu. Zmienna range określa granice argumentów funkcji.
-             * Jeżeli nowo podany punkt będzie leżał poza tymi granicami, program może zwrócić błędny wynik.
+             * W przypadku chęci zmiany danych należy zmodyfikować zmienne statyczne na samej górze programu: X, Y, N. 
              * 
              * Wskazówka:
              * Jeżeli chciałbym wyznaczyć najdłuższą ścieżkę na podstawie tych samych danych należy dokonać takich samych zmian, które 

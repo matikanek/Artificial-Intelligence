@@ -11,6 +11,7 @@ namespace General_Scheduling_Problem
         public static char[] alphabet = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'W', 'X', 'Y', 'Z' };
         public static float[] Duration = { 6, 4, 5 };
         public static int N = 3;
+        public static int K = 2;
 
         public class Task
         {
@@ -30,18 +31,24 @@ namespace General_Scheduling_Problem
         public class Way
         {
             public string combination;
-            public float duration;
-            public bool ifUsed;
-            public Way(string _c, float _d)
+            public float worktime;
+            public int index;
+            public Way(string _c, float _w, int _i)
             {
                 combination = _c;
-                duration = _d;
-                ifUsed = false;
+                worktime = _w;
+                index = _i;
             }
             public override string ToString()
             {
-                return "Way: { Combination: " + combination + ", Duration: " + duration + ", If Used: " + ifUsed + " }";
+                return "Way: { Combination: " + combination + ", Worktime: " + worktime + ", Index: " + index + " }";
             }
+        }
+
+        // Tutaj rozpocznie się jazda
+        public static float AssignDuration(string combination, List<Task> list, int k)
+        {
+            return 0;
         }
 
         public static List<string> Permute(List<Task> ListOfTasks, int l, int r)
@@ -103,7 +110,7 @@ namespace General_Scheduling_Problem
             ListOfCombinations = Permute(ListOfTasks, 0, N - 1);
             for(int i=0; i<ListOfCombinations.Count; i++)
             {
-                Way tmp = new Way(ListOfCombinations[i], float.MaxValue);
+                Way tmp = new Way(ListOfCombinations[i], AssignDuration(ListOfCombinations[i], ListOfTasks, K), i);
                 ListOfWays.Add(tmp);
             }
             

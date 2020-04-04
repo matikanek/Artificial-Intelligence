@@ -9,15 +9,16 @@ namespace General_Scheduling_Problem
     class Program
     {
         public static char[] alphabet = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'W', 'X', 'Y', 'Z' };
-        public static float[] Duration = { 6, 4, 5 };
+        public static string[] names = { "Van Nelle", "Aerzen Green", "Scrroge&Marley", "McLaren Technology", "Olisur Olive", "Green House", "Simon's Company", "Anchor Brewing", "Bang and Olufsen", "Lockheed Martin" };
+        public static int[] Duration = { 6, 4, 5 };
         public static int N = 3;
         public static int K = 2;
 
         public class Task
         {
             public char job;
-            public float duration;
-            public Task(char _j, float _dr)
+            public int duration;
+            public Task(char _j, int _dr)
             {
                 job = _j;
                 duration = _dr;
@@ -31,9 +32,9 @@ namespace General_Scheduling_Problem
         public class Way
         {
             public string combination;
-            public float worktime;
+            public int worktime;
             public int index;
-            public Way(string _c, float _w, int _i)
+            public Way(string _c, int _w, int _i)
             {
                 combination = _c;
                 worktime = _w;
@@ -45,9 +46,40 @@ namespace General_Scheduling_Problem
             }
         }
 
-        // Tutaj rozpocznie się jazda
-        public static float AssignDuration(string combination, List<Task> list, int k)
+        public class Factory : Task
         {
+            public string name;
+            public bool isWorking;
+            public int progress;
+            public Factory(char _j, int _dr, string _n, bool _i, int _p) : base(_j, _dr)
+            {
+                name = _n;
+                isWorking = _i;
+                progress = _p;
+            }
+            public override string ToString()
+            {
+                if (isWorking == false)
+                    return "Factory: {\n" +
+                        "\tName: " + name + "\n" +
+                        "\tState: IS NOT WORKING\n" +
+                        "}";
+                else
+                    return "Factory: {\n" +
+                        "\tName: " + name + "\n" +
+                        "\tState: IS WORKING {\n" +
+                        "\t\tJob: " + job + "\n" +
+                        "\t\tProgress: " + progress + " / " + duration + "\n" +
+                        "\t}\n}";
+            }
+        }
+
+        // Tutaj rozpocznie się jazda
+        public static int AssignDuration(string combination, List<Task> listT, int k, List<Factory> listF)
+        {
+            //Factory f = new Factory(listT[0].job, listT[0].duration, "Ala", false, 1);
+            //Console.WriteLine(f);
+
             return 0;
         }
 
@@ -89,6 +121,18 @@ namespace General_Scheduling_Problem
             return s;
         }
 
+        public static List<Factory> CreateFactories()
+        {
+            List<Factory> list = new List<Factory>();
+            for(int i=0; i<K; i++)
+            {
+                string name = names[i];
+                Factory tmp = new Factory('X', -1, name, false, -1);
+                list.Add(tmp);
+            }
+            return list;
+        }
+
         public static List<Task> CreateTasks()
         {
             List<Task> list = new List<Task>();
@@ -106,11 +150,13 @@ namespace General_Scheduling_Problem
             List<Task> ListOfTasks = new List<Task>();
             List<string> ListOfCombinations = new List<string>();
             List<Way> ListOfWays = new List<Way>();
+            List<Factory> ListOfFactories = new List<Factory>();
             ListOfTasks = CreateTasks();
             ListOfCombinations = Permute(ListOfTasks, 0, N - 1);
-            for(int i=0; i<ListOfCombinations.Count; i++)
+            ListOfFactories = CreateFactories();
+            for (int i=0; i<ListOfCombinations.Count; i++)
             {
-                Way tmp = new Way(ListOfCombinations[i], AssignDuration(ListOfCombinations[i], ListOfTasks, K), i);
+                Way tmp = new Way(ListOfCombinations[i], AssignDuration(ListOfCombinations[i], ListOfTasks, K, ListOfFactories), i);
                 ListOfWays.Add(tmp);
             }
             

@@ -10,33 +10,85 @@ namespace General_Scheduling_Problem
     {
         public static char[] alphabet = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'W', 'X', 'Y', 'Z' };
         public static float[] Duration = { 6, 4, 5 };
-        public static int[] Deadline = { 8, 4, 12 };
         public static int N = 3;
 
         public class Task
         {
             public char job;
             public float duration;
-            public int dueDate;
-            public Task(char _j, float _dr, int _dD)
+            public Task(char _j, float _dr)
             {
                 job = _j;
                 duration = _dr;
-                dueDate = _dD;
             }
             public override string ToString()
             {
-                return "Task: { Job: " + job + ", Duration: " + duration + ", Due Date: " + dueDate + " }";
+                return "Task: { Job: " + job + ", Duration: " + duration + " }";
             }
+        }
+
+        public class Way
+        {
+            public string combination;
+            public float duration;
+            public bool ifUsed;
+            public Way(string _c, float _d)
+            {
+                combination = _c;
+                duration = _d;
+                ifUsed = false;
+            }
+            public override string ToString()
+            {
+                return "Way: { Combination: " + combination + ", Duration: " + duration + ", If Used: " + ifUsed + " }";
+            }
+        }
+
+        public static List<string> Permute(List<Task> ListOfTasks, int l, int r)
+        {
+            List<string> list = new List<string>();
+            string str = "";
+            for (int i = 0; i < ListOfTasks.Count; i++)
+            {
+                str += ListOfTasks[i].job;
+            }
+            list = ToPermute(str, l, r, list);
+            return list;
+        }
+
+        private static List<string> ToPermute(string str, int l, int r, List<string> list)
+        {
+            if (l == r)
+                list.Add(str);
+            else
+            {
+                for (int i = l; i <= r; i++)
+                {
+                    str = Swap(str, l, i);
+                    ToPermute(str, l + 1, r, list);
+                    str = Swap(str, l, i);
+                }
+            }
+            return list;
+        }
+        public static string Swap(string a, int i, int j)
+        {
+            char temp;
+            char[] charArray = a.ToCharArray();
+            temp = charArray[i];
+            charArray[i] = charArray[j];
+            charArray[j] = temp;
+            string s = new string(charArray);
+            return s;
         }
 
         public static List<Task> CreateTasks()
         {
             List<Task> list = new List<Task>();
-            for(int i = 0; i < N; i++)
+            for (int i = 0; i < N; i++)
             {
                 char alf = alphabet[i];
-                Task tmp = new Task(alf, Duration[i], Deadline[i]);
+                Task tmp = new Task(alf, Duration[i]);
                 list.Add(tmp);
             }
             return list;
@@ -45,11 +97,16 @@ namespace General_Scheduling_Problem
         static void Main(string[] args)
         {
             List<Task> ListOfTasks = new List<Task>();
+            List<string> ListOfCombinations = new List<string>();
+            List<Way> ListOfWays = new List<Way>();
             ListOfTasks = CreateTasks();
-            for(int i = 0; i < N; i++)
+            ListOfCombinations = Permute(ListOfTasks, 0, N - 1);
+            for(int i=0; i<ListOfCombinations.Count; i++)
             {
-                Console.WriteLine(ListOfTasks[i]);
+                Way tmp = new Way(ListOfCombinations[i], float.MaxValue);
+                ListOfWays.Add(tmp);
             }
+            
 
             Console.ReadKey();
         }

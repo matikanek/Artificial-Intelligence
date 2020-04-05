@@ -74,13 +74,110 @@ namespace General_Scheduling_Problem
             }
         }
 
-        // Tutaj rozpocznie się jazda
         public static int AssignDuration(string combination, List<Task> listT, int k, List<Factory> listF)
         {
-            //Factory f = new Factory(listT[0].job, listT[0].duration, "Ala", false, 1);
-            //Console.WriteLine(f);
+            int day = 0;
+            char[] works = combination.ToCharArray();
+            Task work = new Task('X', -1);
+            Factory factory = new Factory('X', -1, "Lazy Factory", false, -1);
+            while (IsThereAnyWork(works))
+            {
+                work = PullWork(works, listT);
+                works = works.Skip(1).ToArray();
+                if (IsThereALazyFactory(listF))
+                {
+                    factory = GetFreeFactory(listF);
+                    factory.job = work.job;
+                    factory.duration = work.duration;
+                    factory.progress = 0;
+                    factory.isWorking = true;
+                }
+                else
+                {
+                    while(!CheckFactories(listF))
+                    {
+                        Sunset(listF);
+                        day++;
+                    }
+                    factory = GetFreeFactory(listF);
+                    factory.job = work.job;
+                    factory.duration = work.duration;
+                    factory.progress = 0;
+                    factory.isWorking = true;
+                }
+            }
+            while (IsThereAnyLazyFactory(listF))
+            {
+                Sunset(listF);
+                day++;
+            }
+            return day;
+        }
 
-            return 0;
+        public static bool IsThereAnyLazyFactory(List<Factory> listF)
+        {
+            int numberOfWorkingFactories = K;
+            for (int i = 0; i < K; i++)
+            {
+                if (listF[i].progress == listF[i].duration || listF[i].isWorking == false)
+                {
+                    listF[i].isWorking = false;
+                    numberOfWorkingFactories--;
+                }
+            }
+            if (numberOfWorkingFactories > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public static void Sunset(List<Factory> listF)
+        {
+            for (int i = 0; i < K; i++) listF[i].progress++;
+        }
+
+        public static bool CheckFactories(List<Factory> listF)
+        {
+            for(int i=0; i<K; i++)
+            {
+                if (listF[i].progress == listF[i].duration) listF[i].isWorking = false;
+                if (listF[i].isWorking == false) return true;
+            }
+            return false;
+        }
+
+        public static Factory GetFreeFactory(List<Factory> listF)
+        {
+            int i = 0;
+            while (listF[i].isWorking == true) i++;
+            return listF[i];
+        }
+
+        public static bool IsThereALazyFactory(List<Factory> listF)
+        {
+            for(int i=0; i<K; i++)
+            {
+                if (listF[i].isWorking == false)
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool IsThereAnyWork(char[] works)
+        {
+            if (works.Length == 0) return false;
+            else return true;
+        }
+
+        public static Task PullWork(char[] works, List<Task> listT)
+        {
+            char sign = works[0];
+            int i = 0;
+            Task work = new Task('X', -1);
+            while (listT[i].job != sign) i++;
+            work.job = listT[i].job;
+            work.duration = listT[i].duration;
+            return work;
         }
 
         public static List<string> Permute(List<Task> ListOfTasks, int l, int r)
@@ -158,6 +255,10 @@ namespace General_Scheduling_Problem
             {
                 Way tmp = new Way(ListOfCombinations[i], AssignDuration(ListOfCombinations[i], ListOfTasks, K, ListOfFactories), i);
                 ListOfWays.Add(tmp);
+            }
+            for(int i=0; i<ListOfCombinations.Count; i++)
+            {
+                Console.WriteLine(ListOfWays[i]);
             }
             
 

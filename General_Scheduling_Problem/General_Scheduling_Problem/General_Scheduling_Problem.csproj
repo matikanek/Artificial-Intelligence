@@ -43,8 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllClasses.cs" />
+    <Compile Include="CreatingComponents.cs" />
+    <Compile Include="Parameters.cs" />
+    <Compile Include="Permutation.cs" />
+    <Compile Include="PrintingMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchedulingAlgorithm.cs" />
+    <Compile Include="SimulatedAnnealing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

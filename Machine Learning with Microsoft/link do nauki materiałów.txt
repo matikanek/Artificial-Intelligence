@@ -1,0 +1,5 @@
+Tutorial:
+https://dotnet.microsoft.com/learn/ml-dotnet/get-started-tutorial/intro
+
+Instalka do ML.NET:
+https://marketplace.visualstudio.com/items?itemName=MLNET.07
